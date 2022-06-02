@@ -32,10 +32,17 @@ public class BoadController {
 
     @GetMapping(value = "/board")
     @ResponseBody
-    public List<Board> allUser(){
+    public List<Board> allUser(@RequestParam(required = false) String name){
         Map<String, Object> response = new HashMap<>();
         //jpa에 있는 findAll사용
-        List<Board> boardList = boardRepository.findAll();
+
+        List<Board> boardList = null;
+        if (name != null) {
+            boardList = boardRepository.findAllByName(name);
+        } else {
+            boardList = boardRepository.findAll();
+        }
+
         System.out.println("findAll");
         return boardList;
     }
@@ -116,5 +123,6 @@ public class BoadController {
             return false;
         }
     }
+
 
 }
